@@ -3,3 +3,5 @@
 The goal of this project is to provide an airborne sensing and mapping platform for a prototype air quality sensor.
 
 This repository will contain the code to read data from the sensor and pilot the quadcopter accordingly, in order to acomplish tasks such as finding sources of pollutants or mapping the air quality across a region.
+
+The airframe currently being used is a Parrot AR.Drone 2.0, which we have modified with the Paparazzi open source autopilot software. 
