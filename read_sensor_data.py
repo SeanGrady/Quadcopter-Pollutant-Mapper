@@ -5,7 +5,7 @@ import json
 class DataReceiver():
     def __init__(self):
         self.serial_speed = 9600
-        self.serial_port = '/dev/tty.HC-06-DevB'
+        self.serial_port = '/dev/rfcomm1'
         self.connection = serial.Serial(
                 self.serial_port,
                 self.serial_speed,
