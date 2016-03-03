@@ -4,6 +4,7 @@ import argparse
 
 class DataSynthesizer():
     def __init__(self):
+        self.last_time = 0
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('gps_file')
         self.parser.add_argument('sensor_file')
@@ -17,13 +18,12 @@ class DataSynthesizer():
             for line in f_obj:
                 yield line
 
-    def find_next_gps_line(self, gps_gen):
+    def find_next_gps_line(self, gps_gen, sensor_time):
         while True:
             gps_reading = next(gps_gen)
             gps_data = gps_reading.strip().split()
-            if gps_data[2] != "GPS_INT":
-                continue
-            else:
+            gps_time = float(gps_data[0])
+            if gps_data[2] == "GPS_INT" and gps_time >= sensor_time:
                 return gps_data
 
     def pair_readings(self):
@@ -31,14 +31,14 @@ class DataSynthesizer():
         sensor_gen = self.line_generator(self.sensor_file)
         for line in sensor_gen:
             sensor_data = json.loads(line)
-            sensor_time = sensor_data['ts']
-            gps_data = self.find_next_gps_line(gps_gen)
+            sensor_time = int(sensor_data['ts'])
+            gps_data = self.find_next_gps_line(gps_gen, sensor_time)
             gps_time = gps_data[0]
             lat = float(gps_data[6])
             lon = float(gps_data[7])
             lat = lat / 10000000
             lon = lon / 10000000
-            print lat, lon, gps_time, sensor_time
+            print lat, lon, gps_time, sensor_time, sensor_data['raw']['S1W']
 
 if __name__ == "__main__":
     ds = DataSynthesizer()
