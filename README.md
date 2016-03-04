@@ -10,4 +10,10 @@ To receive sensor data on the RPi 2:
   1. pair the RPi 2 with the sensor (HC-06) and make sure it's trusted
   2. run 'sdptool add sp'
   3. run 'sudo rfcomm bind /dev/rfcomm1 <bluetooth address (i.e. 20:15:05:04:32:55)>
-  4. connect using pyserial (or equivalent) on port /dev/rcomm1 with baud rate 9600
+  4. run read_sensor_data.py
+
+To synthesize the data, run
+synth_sensor_gps.py <flight log filename> <sensor data log filename>
+
+for example:
+synth_sensor_gps.py 16_03_02__16_51_49.data sensor_log.txt
